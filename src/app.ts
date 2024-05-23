@@ -1,5 +1,6 @@
 import expres, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
+import routes from "./routes";
 
 const app = expres();
 
@@ -11,8 +12,10 @@ app.get("/", (_, res) => {
   res.send("Helloo from the server");
 });
 
+app.use("/api/v1", routes);
+
 // 404
-app.use((err: any, req: Request, res: Response) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     message: "Route not found",
@@ -23,11 +26,11 @@ app.use((err: any, req: Request, res: Response) => {
 // global error handeler
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({
     success: false,
     message: "Internal Server Error",
+    error,
   });
 });
 
