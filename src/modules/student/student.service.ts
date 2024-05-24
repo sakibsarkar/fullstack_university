@@ -10,9 +10,22 @@ const getSingleStudentService = async (studentId: string) => {
   return result;
 };
 
+const deleteSingleStudentService = async (studentId: string) => {
+  const result = await Student.updateOne(
+    { id: studentId },
+    {
+      $set: {
+        isDeleted: true,
+      },
+    }
+  );
+  return result
+};
+
 const studentService = {
   getAllStudentService,
   getSingleStudentService,
+  deleteSingleStudentService,
 };
 
 export default studentService;
