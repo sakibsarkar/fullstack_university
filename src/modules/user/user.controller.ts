@@ -31,7 +31,10 @@ export const createStudent = async (
       });
     }
 
-    const result = await userService.createStudentService(data.password || "", data);
+    const result = await userService.createStudentService(
+      body.password || "",
+      data
+    );
 
     return sendResponse(res, {
       statusCode: 200,

@@ -7,10 +7,12 @@ const getAllStudentService = async () => {
 
 const getSingleStudentService = async (studentId: string) => {
   const result = await Student.findById(studentId);
+  return result;
 };
 
 const studentService = {
   getAllStudentService,
+  getSingleStudentService,
 };
 
 export default studentService;

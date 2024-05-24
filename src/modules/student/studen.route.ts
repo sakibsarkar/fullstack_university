@@ -1,9 +1,12 @@
 import expres from "express";
-import { getAllStudent } from "./student.controller";
+import {
+  getAllStudent,
+  getsingleStudentController,
+} from "./student.controller";
 const router = expres.Router();
 
 // get single student
-router.get("/:student", (req, res) => res.send("to tot"));
+router.get("/:student", getsingleStudentController);
 // get all  student
 router.get("/g/all", getAllStudent);
 

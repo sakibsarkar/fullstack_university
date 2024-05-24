@@ -19,17 +19,28 @@ export const getAllStudent = async (
   }
 };
 
-export const getsingleStudent = async (
+export const getsingleStudentController = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const studentId = req.params;
+    const studentId = req.params.student;
+    const result = await studentService.getSingleStudentService(studentId);
+    if (result) {
+      return sendResponse(res, {
+        success: true,
+        message: `Successfuly find data for studentId ${studentId} `,
+        data: result,
+      });
+    }
+
     sendResponse(res, {
-      success: true,
-      message: `Successfuly find data for studentId ${studentId} `,
-      data: "result",
+      success: false,
+      message: `no student data found for student id ${studentId}`,
+      data: null,
     });
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
