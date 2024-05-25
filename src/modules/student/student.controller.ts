@@ -1,30 +1,18 @@
-import { NextFunction, Request, Response } from "express";
+import { catchAsyncError } from "../../utils/catchAsyncError";
 import sendResponse from "../../utils/sendResponse";
 import studentService from "./student.service";
 
-export const getAllStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const result = await studentService.getAllStudentService();
-    sendResponse(res, {
-      success: true,
-      message: "Successfully get all student data",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+export const getAllStudent = catchAsyncError(async (req, res, next) => {
+  const result = await studentService.getAllStudentService();
+  sendResponse(res, {
+    success: true,
+    message: "Successfully get all student data",
+    data: result,
+  });
+});
 
-export const getsingleStudentController = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+export const getsingleStudentController = catchAsyncError(
+  async (req, res, next) => {
     const { studentId } = req.params;
     const result = await studentService.getSingleStudentService(studentId);
     if (result) {
@@ -40,17 +28,10 @@ export const getsingleStudentController = async (
       message: `no student data found for student id ${studentId}`,
       data: null,
     });
-  } catch (error) {
-    next(error);
   }
-};
-
-export const deleteSingleStudentController = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+);
+export const deleteSingleStudentController = catchAsyncError(
+  async (req, res, next) => {
     const { studentId } = req.params;
     const result = await studentService.deleteSingleStudentService(studentId);
 
@@ -73,7 +54,5 @@ export const deleteSingleStudentController = async (
       message: `${studentId} student not found`,
       data: result,
     });
-  } catch (error) {
-    next(error);
   }
-};
+);

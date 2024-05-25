@@ -21,16 +21,15 @@ const createStudentService = async (
   userData.id = "2030100001";
 
   // create a user
-  const newUser = await User.create(userData);
+  const newUser = new User(userData);
+  await newUser.save();
 
   //create a student
   if (Object.keys(newUser).length) {
     // set id , _id as user
     studentData.id = newUser.id;
     studentData.user = newUser._id; //reference _id
-    if (studentData.password) {
-      delete studentData.password;
-    }
+
     const newStudent = await Student.create(studentData);
     return newStudent;
   }
