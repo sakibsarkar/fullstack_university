@@ -1,4 +1,4 @@
-import { academicSemesterNameCodeMapper } from "../modules/academicSemester/academicSemester.constant";
+import { academicSemesterNameCodeMapper } from "./academicSemester.constant";
 
 export const isValidSemesterCode = (name: string, code: string): boolean => {
   const semester = academicSemesterNameCodeMapper;

@@ -1,8 +1,11 @@
 import Config from "../../config";
+import { IAcademicSemester } from "../academicSemester/academicSemester.interface";
+import { academicService } from "../academicSemester/academicSemester.service";
 import { IStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
+import { generateStudentId } from "./user.utils";
 
 const createStudentService = async (
   password: string,
@@ -17,12 +20,15 @@ const createStudentService = async (
   //set student role
   userData.role = "student";
 
-  //set manually generated it
-  userData.id = "2030100001";
+  //set generated it
+  const semester = await academicService.getSingleAcamdemicSemesterService(
+    studentData.admissionSemester?.toString() || ""
+  );
+  const semesterData = semester?.toObject();
+  userData.id = await generateStudentId(semesterData as IAcademicSemester);
 
   // create a user
-  const newUser = new User(userData);
-  await newUser.save();
+  const newUser = await User.create(userData);
 
   //create a student
   if (Object.keys(newUser).length) {

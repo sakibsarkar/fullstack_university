@@ -1,7 +1,7 @@
 import { catchAsyncError } from "../../utils/catchAsyncError";
 import sendResponse from "../../utils/sendResponse";
-import { isValidSemesterCode } from "../../utils/validateSemesterCode";
 import { academicService } from "./academicSemester.service";
+import { isValidSemesterCode } from "./academicSemester.utils";
 
 const {
   createAcademicSemesterService,
