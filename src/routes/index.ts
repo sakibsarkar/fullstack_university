@@ -1,16 +1,21 @@
 import express from "express";
-import studentRoute from "../modules/student/studen.route";
-import userRoute from "../modules/user/user.route";
+import academicSemesterRoutes from "../modules/academicSemester/academicSemester.route";
+import studentRoutes from "../modules/student/studen.route";
+import userRoutes from "../modules/user/user.route";
 const router = express.Router();
 
 const moduleRoute = [
   {
     path: "/student",
-    route: studentRoute,
+    route: studentRoutes,
   },
   {
     path: "/user",
-    route: userRoute,
+    route: userRoutes,
+  },
+  {
+    path: "/academicSemester",
+    route: academicSemesterRoutes,
   },
 ];
 

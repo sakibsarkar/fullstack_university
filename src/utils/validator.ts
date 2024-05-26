@@ -6,18 +6,10 @@ import { catchAsyncError } from "./catchAsyncError";
 export const validSchema = (schema: AnyZodObject) => {
   return catchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
-      const x = await schema.parseAsync(req.body);
-      console.log(x, "mr x");
+      console.log(req.body);
 
-      return next();
+      await schema.parseAsync(req.body);
+      return next("Invalid json data format");
     }
   );
-};
-
-// module way
-const validStudent2 = (schema: AnyZodObject) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    await schema.parseAsync({ body: req.body });
-    next();
-  };
 };
