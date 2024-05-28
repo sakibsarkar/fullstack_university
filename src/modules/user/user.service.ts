@@ -25,7 +25,10 @@ const createStudentService = async (
     studentData.admissionSemester?.toString() || ""
   );
   const semesterData = semester?.toObject();
-  userData.id = await generateStudentId(semesterData as IAcademicSemester,studentData.admissionSemester);
+  userData.id = await generateStudentId(
+    semesterData as IAcademicSemester,
+    studentData.admissionSemester?.toString() || ""
+  );
 
   // create a user
   const newUser = await User.create(userData);
@@ -43,6 +46,7 @@ const createStudentService = async (
 
 const userService = {
   createStudentService,
+
 };
 
 export default userService;

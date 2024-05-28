@@ -3,6 +3,7 @@ import { catchAsyncError } from "../../utils/catchAsyncError";
 import sendResponse from "../../utils/sendResponse";
 import userService from "./user.service";
 
+const { createStudentService } = userService;
 export const createStudent = catchAsyncError(
   async (req: Request, res: Response) => {
     const body = req.body;
@@ -16,10 +17,7 @@ export const createStudent = catchAsyncError(
       });
     }
 
-    const result = await userService.createStudentService(
-      body.password || "",
-      req.body
-    );
+    const result = await createStudentService(body.password || "", req.body);
 
     return sendResponse(res, {
       statusCode: 200,

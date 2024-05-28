@@ -39,6 +39,7 @@ export interface IStudent {
   admissionSemester: Types.ObjectId;
   profileImg?: string;
   isDeleted: boolean;
+  academicDepartment: Types.ObjectId;
 }
 export interface StudentModel extends Model<IStudent> {
   isUserExists(id: string): Promise<IStudent | null>;

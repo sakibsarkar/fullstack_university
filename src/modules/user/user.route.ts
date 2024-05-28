@@ -9,4 +9,5 @@ router.post(
   validSchema(studentValidationSchema),
   createStudent
 );
+
 export default router;
