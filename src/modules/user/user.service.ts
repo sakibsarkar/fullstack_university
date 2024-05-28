@@ -25,7 +25,7 @@ const createStudentService = async (
     studentData.admissionSemester?.toString() || ""
   );
   const semesterData = semester?.toObject();
-  userData.id = await generateStudentId(semesterData as IAcademicSemester);
+  userData.id = await generateStudentId(semesterData as IAcademicSemester,studentData.admissionSemester);
 
   // create a user
   const newUser = await User.create(userData);

@@ -1,9 +1,9 @@
 import { IAcademicSemester } from "../academicSemester/academicSemester.interface";
-import { User } from "./user.model";
+import { Student } from "../student/student.model";
 
-const getLastStudenId = async () => {
-  const lastStudent = await User.findOne(
-    { role: "student" },
+const getLastStudenId = async (semesteId: string) => {
+  const lastStudent = await Student.findOne(
+    { admissionSemester: semesteId },
     {
       _id: 0,
       id: 1,
@@ -16,8 +16,11 @@ const getLastStudenId = async () => {
   return lastStudent?.id || "";
 };
 
-export const generateStudentId = async (payload: IAcademicSemester) => {
-  const lastStudentId = await getLastStudenId();
+export const generateStudentId = async (
+  payload: IAcademicSemester,
+  semesterId: string
+) => {
+  const lastStudentId = await getLastStudenId(semesterId);
   let studentId = "0".padStart(4, "0");
   if (lastStudentId) {
     const last4Digit = lastStudentId.slice(-4);
