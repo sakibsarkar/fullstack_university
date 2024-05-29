@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Config from "../../config";
 import { IAcademicSemester } from "../academicSemester/academicSemester.interface";
 import { academicService } from "../academicSemester/academicSemester.service";
@@ -30,23 +31,40 @@ const createStudentService = async (
     studentData.admissionSemester?.toString() || ""
   );
 
-  // create a user
-  const newUser = await User.create(userData);
+  // create transaction session
+  const session = await mongoose.startSession();
 
-  //create a student
-  if (Object.keys(newUser).length) {
+  try {
+    session.startTransaction();
+    // create a user
+    const newUser = await User.create([userData], { session });
+
+    if (!newUser.length) {
+      throw new Error("Something went wrong, unable to create user");
+    }
+
+    //create a student
+
     // set id , _id as user
-    studentData.id = newUser.id;
-    studentData.user = newUser._id; //reference _id
+    studentData.id = newUser[0].id;
+    studentData.user = newUser[0]._id; //reference _id
 
-    const newStudent = await Student.create(studentData);
+    const newStudent = await Student.create([studentData], { session });
+    if (!newStudent.length) {
+      throw new Error("Something went wrong, unable to create student");
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
     return newStudent;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
   }
 };
 
 const userService = {
   createStudentService,
-
 };
 
 export default userService;
