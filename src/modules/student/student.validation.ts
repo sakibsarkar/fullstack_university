@@ -47,4 +47,5 @@ export const studentValidationSchema = z.object({
   academicDepartment: z.string(),
 });
 
+
 export default studentValidationSchema;

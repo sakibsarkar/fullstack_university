@@ -6,6 +6,7 @@ const {
   createAcademicFacultyService,
   getSingleAcademicFcultyByIdService,
   updateAcademicFacultyByIdService,
+  getAllAcademicFacultyService,
 } = academicFacultyService;
 
 export const createAcademicFacultyController = catchAsyncError(
@@ -29,6 +30,18 @@ export const getFacultyByIdController = catchAsyncError(
       statusCode: 200,
       success: true,
       message: "Academic faculty is retrieved succesfully",
+      data: result,
+    });
+  }
+);
+
+export const getAllFacunltyController = catchAsyncError(
+  async (req, res, next) => {
+    const result = await getAllAcademicFacultyService();
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Academic faculties are retrieved successfully",
       data: result,
     });
   }

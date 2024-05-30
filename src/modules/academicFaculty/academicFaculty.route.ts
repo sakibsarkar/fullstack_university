@@ -5,10 +5,7 @@ import {
   getFacultyByIdController,
   updateaAcademicFacultyByIdController,
 } from "./academicFaculty.controller";
-import {
-  AcademicFacultyValidationSchema,
-  updateAcademicFacultyValidationSchema,
-} from "./academicFaculty.validation";
+import { AcademicFacultyValidationSchema } from "./academicFaculty.validation";
 const router = express.Router();
 router.post(
   "/create",
@@ -16,10 +13,11 @@ router.post(
   createAcademicFacultyController
 );
 
+router.get("/get");
 router.get("/get/:facultyId", getFacultyByIdController);
 router.patch(
   "/u/:facultyId",
-  validSchema(updateAcademicFacultyValidationSchema),
+  validSchema(AcademicFacultyValidationSchema),
   updateaAcademicFacultyByIdController
 );
 export default router;

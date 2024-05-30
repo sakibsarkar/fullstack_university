@@ -5,9 +5,8 @@ import {
   getAcademicSemesterController,
   getSingleAcamdemicSemesterController,
 } from "./academicSemester.controller";
-import { AcademicSemesterValidations } from "./academicSemester.validaion";
+import { createAcdemicSemesterValidationSchema } from "./academicSemester.validaion";
 const router = express.Router();
-const { createAcdemicSemesterValidationSchema } = AcademicSemesterValidations;
 
 // geta all academic semester
 router.get("/get/g/all", getAcademicSemesterController);

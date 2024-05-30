@@ -10,6 +10,11 @@ const getSingleAcademicFcultyByIdService = async (id: string) => {
   return result;
 };
 
+const getAllAcademicFacultyService = async () => {
+  const result = await AcademicFaculty.find();
+  return result;
+};
+
 const updateAcademicFacultyByIdService = async (
   id: string,
   payload: Partial<IAcademicFaculty>
@@ -23,5 +28,6 @@ const updateAcademicFacultyByIdService = async (
 export const academicFacultyService = {
   createAcademicFacultyService,
   getSingleAcademicFcultyByIdService,
-  updateAcademicFacultyByIdService
+  updateAcademicFacultyByIdService,
+  getAllAcademicFacultyService
 };
