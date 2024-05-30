@@ -2,7 +2,11 @@ import { catchAsyncError } from "../../utils/catchAsyncError";
 import sendResponse from "../../utils/sendResponse";
 import { academicFacultyService } from "./academicFaculty.service";
 
-const { createAcademicFacultyService } = academicFacultyService;
+const {
+  createAcademicFacultyService,
+  getSingleAcademicFcultyByIdService,
+  updateAcademicFacultyByIdService,
+} = academicFacultyService;
 
 export const createAcademicFacultyController = catchAsyncError(
   async (req, res, next) => {
@@ -11,6 +15,34 @@ export const createAcademicFacultyController = catchAsyncError(
     sendResponse(res, {
       success: true,
       message: "Academic faculty created successfully",
+      data: result,
+    });
+  }
+);
+
+export const getFacultyByIdController = catchAsyncError(
+  async (req, res, next) => {
+    const { facultyId } = req.params;
+    const result = await getSingleAcademicFcultyByIdService(facultyId);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Academic faculty is retrieved succesfully",
+      data: result,
+    });
+  }
+);
+
+export const updateaAcademicFacultyByIdController = catchAsyncError(
+  async (req, res, next) => {
+    const { facultyId } = req.params;
+    const result = await updateAcademicFacultyByIdService(facultyId, req.body);
+
+    sendResponse(res, {
+      statusCode: 20,
+      success: true,
+      message: "Academic faculty is updated succesfully",
       data: result,
     });
   }
