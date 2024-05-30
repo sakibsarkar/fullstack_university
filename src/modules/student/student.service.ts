@@ -1,3 +1,4 @@
+import { IStudent } from "./student.interface";
 import { Student } from "./student.model";
 
 const getAllStudentService = async () => {
@@ -26,10 +27,24 @@ const deleteSingleStudentService = async (studentId: string) => {
   return result;
 };
 
+const updateSingleStudentService = async (
+  studentId: string,
+  updateData: Partial<IStudent>
+) => {
+  const result = await Student.updateOne(
+    { id: studentId },
+    { $set: updateData },
+    { runValidators: true, new: true }
+  );
+
+  return result;
+};
+
 const studentService = {
   getAllStudentService,
   getSingleStudentService,
   deleteSingleStudentService,
+  updateSingleStudentService,
 };
 
 export default studentService;

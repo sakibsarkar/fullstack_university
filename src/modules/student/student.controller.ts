@@ -54,3 +54,40 @@ export const deleteSingleStudentController = catchAsyncError(
     });
   }
 );
+
+export const updateSingleStudentController = catchAsyncError(
+  async (req, res, next) => {
+    const { body } = req;
+    const { name, guardian, localGuardian, ...rest } = body;
+    const updateData: { [key: string]: any } = { ...rest };
+    const studentId = req.params.studentId;
+
+    if (name && Object.keys(name).length) {
+      for (const [key, value] of Object.entries(name)) {
+        updateData[`${name}.${key}`] = value;
+      }
+    }
+    if (guardian && Object.keys(guardian).length) {
+      for (const [key, value] of Object.entries(guardian)) {
+        updateData[`${guardian}.${key}`] = value;
+      }
+    }
+    if (localGuardian && Object.keys(localGuardian).length) {
+      for (const [key, value] of Object.entries(localGuardian)) {
+        updateData[`${localGuardian}.${key}`] = value;
+      }
+    }
+
+    const result = await studentService.updateSingleStudentService(
+      studentId,
+      updateData
+    );
+
+    sendResponse(res, {
+      success: true,
+      message: "Student updated successfull",
+      data: result,
+      statusCode: 200,
+    });
+  }
+);

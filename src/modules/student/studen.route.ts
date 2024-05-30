@@ -3,6 +3,7 @@ import {
   deleteSingleStudentController,
   getAllStudent,
   getsingleStudentController,
+  updateSingleStudentController,
 } from "./student.controller";
 const router = expres.Router();
 
@@ -12,5 +13,7 @@ router.get("/:studentId", getsingleStudentController);
 router.get("/g/all", getAllStudent);
 // delete a student
 router.delete("/d/:studentId", deleteSingleStudentController);
+// update a studnet
+router.patch("/u/:studentId", updateSingleStudentController);
 
 export default router;
