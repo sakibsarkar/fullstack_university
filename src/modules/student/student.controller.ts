@@ -3,7 +3,8 @@ import sendResponse from "../../utils/sendResponse";
 import studentService from "./student.service";
 
 export const getAllStudent = catchAsyncError(async (req, res) => {
-  const result = await studentService.getAllStudentService();
+  const query = req.query;
+  const result = await studentService.getAllStudentService(query);
   sendResponse(res, {
     success: true,
     message: "Successfully get all student data",
@@ -64,19 +65,20 @@ export const updateSingleStudentController = catchAsyncError(
 
     if (name && Object.keys(name).length) {
       for (const [key, value] of Object.entries(name)) {
-        updateData[`${name}.${key}`] = value;
+        updateData[`name.${key}`] = value;
       }
     }
     if (guardian && Object.keys(guardian).length) {
       for (const [key, value] of Object.entries(guardian)) {
-        updateData[`${guardian}.${key}`] = value;
+        updateData[`guardian.${key}`] = value;
       }
     }
     if (localGuardian && Object.keys(localGuardian).length) {
       for (const [key, value] of Object.entries(localGuardian)) {
-        updateData[`${localGuardian}.${key}`] = value;
+        updateData[`localGuardian.${key}`] = value;
       }
     }
+    console.log(updateData);
 
     const result = await studentService.updateSingleStudentService(
       studentId,

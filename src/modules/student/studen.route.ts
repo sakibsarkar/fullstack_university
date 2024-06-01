@@ -6,7 +6,7 @@ import {
   getsingleStudentController,
   updateSingleStudentController,
 } from "./student.controller";
-import studentValidationSchema from "./student.validation";
+import { updateStudentValidationSchema } from "./student.validation";
 const router = expres.Router();
 
 // get single student
@@ -18,7 +18,7 @@ router.delete("/d/:studentId", deleteSingleStudentController);
 // update a studnet
 router.patch(
   "/u/:studentId",
-  validSchema(studentValidationSchema.partial()),
+  validSchema(updateStudentValidationSchema),
   updateSingleStudentController
 );
 

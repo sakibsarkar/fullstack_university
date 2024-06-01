@@ -46,6 +46,25 @@ export const studentValidationSchema = z.object({
   isDeleted: z.boolean().optional(),
   academicDepartment: z.string(),
 });
-
+export const updateStudentValidationSchema = z
+  .object({
+    name: userNameSchema.partial(),
+    gender: z.enum(["male", "female", "other"]),
+    dateOfBirth: z.string().optional(),
+    email: z.string().email(),
+    contactNo: z.string(),
+    emergencyContactNo: z.string(),
+    bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
+    presentAddress: z.string(),
+    permanentAddress: z.string(),
+    guardian: guardianSchema.partial(),
+    localGuardian: localGuardianSchema.partial(),
+    admissionSemester: z.string(),
+    profileImg: z.string().optional().optional(),
+    isActive: z.enum(["active", "blocked"]).default("active"),
+    isDeleted: z.boolean().optional(),
+    academicDepartment: z.string(),
+  })
+  .partial();
 
 export default studentValidationSchema;
