@@ -8,13 +8,13 @@ const router = express.Router();
 router.get("/:id", FacultyControllers.getSingleFaculty);
 
 router.patch(
-  "/:id",
+  "/u/:id",
   validSchema(updateFacultyValidationSchema),
   FacultyControllers.updateFaculty
 );
 
-router.delete("/:id", FacultyControllers.deleteFaculty);
+router.delete("/d/:id", FacultyControllers.deleteFaculty);
 
-router.get("/", FacultyControllers.getAllFaculties);
+router.get("/g/all", FacultyControllers.getAllFaculties);
 
 export default router;

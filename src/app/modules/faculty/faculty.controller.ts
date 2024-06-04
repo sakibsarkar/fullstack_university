@@ -34,8 +34,8 @@ const getAllFaculties = catchAsyncError(async (req, res) => {
 
 const updateFaculty = catchAsyncError(async (req, res) => {
   const { id } = req.params;
-  const { faculty } = req.body;
-  const result = await updateFacultyIntoDB(id, faculty);
+  const { body } = req;
+  const result = await updateFacultyIntoDB(id, body);
 
   sendResponse(res, {
     statusCode: 200,
