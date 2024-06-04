@@ -1,7 +1,6 @@
 import expres, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
-import routes from "./routes";
-
+import routes from "./app/routes";
 const app = expres();
 
 // middlewere
