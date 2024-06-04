@@ -1,5 +1,6 @@
-import expres, { NextFunction, Request, Response } from "express";
+import expres, { Request, Response } from "express";
 import morgan from "morgan";
+import globalErrorHandler from "./app/middleweres/globalError";
 import routes from "./app/routes";
 const app = expres();
 
@@ -19,18 +20,13 @@ app.use((req: Request, res: Response) => {
     success: false,
     message: "Route not found",
     requestedPath: req.originalUrl,
+    method: req.method,
   });
 });
 
 // global error handeler
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({
-    success: false,
-    message: "Internal Server Error",
-    error,
-  });
-});
+app.use(globalErrorHandler);
 
 export default app;

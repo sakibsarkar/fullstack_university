@@ -32,7 +32,7 @@ export const createFacultyValidationSchema = z.object({
 
 export const updateFacultyValidationSchema = z.object({
   designation: z.string().optional(),
-  // name: UserNameValidationSchema.partial(),
+  name: UserNameValidationSchema.partial(),
   gender: z.enum([...Gender] as [string, ...string[]]).optional(),
   dateOfBirth: z.string().optional(),
   email: z.string().email().optional(),
