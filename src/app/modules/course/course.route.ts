@@ -1,38 +1,38 @@
-import express from 'express';
-import { CourseControllers } from './course.controller';
-import { CourseValidations } from './course.validation';
-import { validSchema } from '../../../utils/validator';
+import express from "express";
+import { validSchema } from "../../../utils/validator";
+import { CourseControllers } from "./course.controller";
+import { CourseValidations } from "./course.validation";
 
 const router = express.Router();
 
 router.post(
-  '/create-course',
+  "/create-course",
   validSchema(CourseValidations.createCourseValidationSchema),
-  CourseControllers.createCourse,
+  CourseControllers.createCourse
 );
 
-router.get('/:id', CourseControllers.getSingleCourse);
+router.get("/:id", CourseControllers.getSingleCourse);
 
 router.patch(
-  '/:id',
+  "/:id",
   validSchema(CourseValidations.updateCourseValidationSchema),
-  CourseControllers.updateCourse,
+  CourseControllers.updateCourse
 );
 
-router.delete('/:id', CourseControllers.deleteCourse);
+router.delete("/:id", CourseControllers.deleteCourse);
 
 router.put(
-  '/:courseId/assign-faculties',
+  "/:courseId/assign-faculties",
   validSchema(CourseValidations.facultiesWithCourseValidationSchema),
-  CourseControllers.assignFacultiesWithCourse,
+  CourseControllers.assignFacultiesWithCourse
 );
 
 router.delete(
-  '/:courseId/remove-faculties',
+  "/:courseId/remove-faculties",
   validSchema(CourseValidations.facultiesWithCourseValidationSchema),
-  CourseControllers.removeFacultiesFromCourse,
+  CourseControllers.removeFacultiesFromCourse
 );
 
-router.get('/', CourseControllers.getAllCourses);
+router.get("/", CourseControllers.getAllCourses);
 
-export const CourseRoutes = router;
+export default router;

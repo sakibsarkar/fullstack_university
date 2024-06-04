@@ -3,6 +3,7 @@ import Config from "../../../config";
 import { AcademicDepartment } from "../academicDepartment/academicDepartment.model";
 import { IAcademicSemester } from "../academicSemester/academicSemester.interface";
 import { academicService } from "../academicSemester/academicSemester.service";
+import { IAdmin } from "../admin/admin.interface";
 import { Admin } from "../admin/admin.model";
 import { IFaculty } from "../faculty/faculty.interface";
 import { Faculty } from "../faculty/faculty.model";
@@ -71,7 +72,7 @@ const createStudentService = async (
   }
 };
 
-const createAdminService = async (password: string, payload: IFaculty) => {
+const createAdminService = async (password: string, payload: IAdmin) => {
   // create a user object
   const userData: Partial<IUser> = {};
 
@@ -90,6 +91,7 @@ const createAdminService = async (password: string, payload: IFaculty) => {
 
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session });
+    console.log(newUser);
 
     //create a admin
     if (!newUser.length) {
@@ -113,6 +115,8 @@ const createAdminService = async (password: string, payload: IFaculty) => {
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
+    console.log(err);
+
     throw new Error(err);
   }
 };

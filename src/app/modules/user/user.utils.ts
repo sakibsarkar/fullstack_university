@@ -29,7 +29,6 @@ export const generateStudentId = async (
     studentId = incrementId;
   }
   const studentActiveId = payload.year + payload.code + studentId;
-  console.log(studentActiveId, "yo yo");
 
   return studentActiveId;
 };

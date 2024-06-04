@@ -29,8 +29,8 @@ export const createStudent = catchAsyncError(
   }
 );
 
-export const createAdmin = catchAsyncError(async (req, res) => {
-  const { password, admin: adminData } = req.body;
+export const createAdmin = catchAsyncError(async (req, res, next) => {
+  const { password, ...adminData } = req.body;
 
   const result = await createAdminService(password, adminData);
 
