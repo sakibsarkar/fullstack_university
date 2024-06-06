@@ -1,7 +1,7 @@
 import express from "express";
-import { validSchema } from "../../../utils/validator";
 import { FacultyControllers } from "./faculty.controller";
 import { updateFacultyValidationSchema } from "./faculty.validation";
+import { validSchema } from "../../middleweres/validator";
 
 const router = express.Router();
 

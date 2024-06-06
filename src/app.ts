@@ -9,7 +9,7 @@ app.use(expres.json());
 app.use(morgan("dev"));
 
 app.get("/", (_, res) => {
-  res.send("Helloo from the server");
+  res.send("Hello from the server");
 });
 
 app.use("/api/v1", routes);

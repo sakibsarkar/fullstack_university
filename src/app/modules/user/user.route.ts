@@ -1,5 +1,5 @@
 import express from "express";
-import { validSchema } from "../../../utils/validator";
+import { validSchema } from "../../middleweres/validator";
 import { createAdminValidationSchema } from "../admin/admin.validation";
 import { createFacultyValidationSchema } from "../faculty/faculty.validation";
 import studentValidationSchema from "../student/student.validation";

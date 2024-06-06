@@ -1,5 +1,4 @@
 import expres from "express";
-import { validSchema } from "../../../utils/validator";
 import {
   deleteSingleStudentController,
   getAllStudent,
@@ -7,6 +6,7 @@ import {
   updateSingleStudentController,
 } from "./student.controller";
 import { updateStudentValidationSchema } from "./student.validation";
+import { validSchema } from "../../middleweres/validator";
 const router = expres.Router();
 
 // get single student

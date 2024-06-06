@@ -1,5 +1,4 @@
 import express from "express";
-import { validSchema } from "../../../utils/validator";
 import {
   createAcademicDepartmemt,
   getAllAcademicDepartments,
@@ -7,6 +6,7 @@ import {
   updateAcademicDeartment,
 } from "./academicDepartment.controller";
 import { createAcademicDepartmentValidationSchema } from "./academicDepartment.validation";
+import { validSchema } from "../../middleweres/validator";
 
 const router = express.Router();
 

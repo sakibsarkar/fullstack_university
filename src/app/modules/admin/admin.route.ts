@@ -1,5 +1,5 @@
 import express from "express";
-import { validSchema } from "../../../utils/validator";
+import { validSchema } from "../../middleweres/validator";
 import { AdminControllers } from "./admin.controller";
 import { updateAdminValidationSchema } from "./admin.validation";
 

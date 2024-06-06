@@ -1,5 +1,5 @@
 import express from "express";
-import { validSchema } from "../../../utils/validator";
+import { validSchema } from "../../middleweres/validator";
 import { CourseControllers } from "./course.controller";
 import { CourseValidations } from "./course.validation";
 
