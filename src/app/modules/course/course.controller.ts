@@ -2,7 +2,7 @@ import { catchAsyncError } from "../../../utils/catchAsyncError";
 import sendResponse from "../../../utils/sendResponse";
 import { CourseServices } from "./course.service";
 
-const createCourse = catchAsyncError(async (req, res) => {
+export const createCourse = catchAsyncError(async (req, res) => {
   const result = await CourseServices.createCourseIntoDB(req.body);
 
   sendResponse(res, {
@@ -13,7 +13,7 @@ const createCourse = catchAsyncError(async (req, res) => {
   });
 });
 
-const getAllCourses = catchAsyncError(async (req, res) => {
+export const getAllCourses = catchAsyncError(async (req, res) => {
   const result = await CourseServices.getAllCoursesFromDB(req.query);
 
   sendResponse(res, {
@@ -24,7 +24,7 @@ const getAllCourses = catchAsyncError(async (req, res) => {
   });
 });
 
-const getSingleCourse = catchAsyncError(async (req, res) => {
+export const getSingleCourse = catchAsyncError(async (req, res) => {
   const { id } = req.params;
   const result = await CourseServices.getSingleCourseFromDB(id);
 
@@ -36,7 +36,7 @@ const getSingleCourse = catchAsyncError(async (req, res) => {
   });
 });
 
-const updateCourse = catchAsyncError(async (req, res) => {
+export const updateCourse = catchAsyncError(async (req, res) => {
   const { id } = req.params;
   const result = await CourseServices.updateCourseIntoDB(id, req.body);
 
@@ -48,7 +48,7 @@ const updateCourse = catchAsyncError(async (req, res) => {
   });
 });
 
-const deleteCourse = catchAsyncError(async (req, res) => {
+export const deleteCourse = catchAsyncError(async (req, res) => {
   const { id } = req.params;
   const result = await CourseServices.deleteCourseFromDB(id);
 
@@ -60,9 +60,9 @@ const deleteCourse = catchAsyncError(async (req, res) => {
   });
 });
 
-const assignFacultiesWithCourse = catchAsyncError(async (req, res) => {
+export const assignFacultiesWithCourse = catchAsyncError(async (req, res) => {
   const { courseId } = req.params;
-  const faculties  = req.body;
+  const faculties = req.body;
 
   const result = await CourseServices.assignFacultiesWithCourseIntoDB(
     courseId,
@@ -77,7 +77,7 @@ const assignFacultiesWithCourse = catchAsyncError(async (req, res) => {
   });
 });
 
-const removeFacultiesFromCourse = catchAsyncError(async (req, res) => {
+export const removeFacultiesFromCourse = catchAsyncError(async (req, res) => {
   const { courseId } = req.params;
   const { faculties } = req.body;
 
@@ -93,13 +93,3 @@ const removeFacultiesFromCourse = catchAsyncError(async (req, res) => {
     data: result,
   });
 });
-
-export const CourseControllers = {
-  createCourse,
-  getSingleCourse,
-  getAllCourses,
-  updateCourse,
-  deleteCourse,
-  assignFacultiesWithCourse,
-  removeFacultiesFromCourse,
-};

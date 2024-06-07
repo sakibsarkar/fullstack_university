@@ -19,7 +19,7 @@ router.get("/", getAllOfferedCourses);
 router.get("/:id", getSingleOfferedCourses);
 
 router.post(
-  "/create-offered-course",
+  "/create",
   validBodySchema(createOfferedCourseValidationSchema),
   createOfferedCourse
 );

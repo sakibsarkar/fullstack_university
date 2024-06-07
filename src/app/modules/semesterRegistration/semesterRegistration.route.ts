@@ -16,23 +16,23 @@ import {
 const router = express.Router();
 
 router.post(
-  "/create-semester-registration",
+  "/create",
   validSchema(createSemesterRegistrationValidationSchema),
   createSemesterRegistration
 );
 
-router.get("/:id", getSingleSemesterRegistration);
+router.get("/get/:id", getSingleSemesterRegistration);
+router.get("/all", getAllSemesterRegistrations);
 
 router.patch(
-  "/:id",
+  "/u/:id",
   validSchema(upadateSemesterRegistrationValidationSchema),
   updateSemesterRegistration
 );
-
-router.get("/:id", getSingleSemesterRegistration);
-
 router.delete("/:id", deleteSemesterRegistration);
 
-router.get("/", getAllSemesterRegistrations);
+// router.get("/:id", getSingleSemesterRegistration);
+
+
 
 export default router;
