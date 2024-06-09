@@ -1,6 +1,6 @@
-import { IGender, TBloodGroup } from "./admin.interface";
+import { TBloodGroup, TGender } from "./admin.interface";
 
-export const Gender: IGender[] = ["male", "female", "other"];
+export const Gender: TGender[] = ["male", "female", "other"];
 
 export const BloodGroup: TBloodGroup[] = [
   "A+",
