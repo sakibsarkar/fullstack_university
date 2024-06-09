@@ -1,29 +1,33 @@
-import express from 'express';
-import auth from '../../middlewares/auth';
-import validateRequest from '../../middlewares/validateRequest';
-import { USER_ROLE } from './../user/user.constant';
-import { AuthControllers } from './auth.controller';
-import { AuthValidation } from './auth.validation';
+import express from "express";
+import auth from "../../middleweres/auth";
+import { validSchema } from "../../middleweres/validator";
+import { USER_ROLE } from "../user/user.constants";
+import { AuthControllers } from "./auth.controller";
+import {
+  changePasswordValidationSchema,
+  loginValidationSchema,
+  refreshTokenValidationSchema,
+} from "./auth.validation";
 
 const router = express.Router();
 
 router.post(
-  '/login',
-  validateRequest(AuthValidation.loginValidationSchema),
-  AuthControllers.loginUser,
+  "/login",
+  validSchema(loginValidationSchema),
+  AuthControllers.loginUser
 );
 
 router.post(
-  '/change-password',
+  "/change-password",
   auth(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.student),
-  validateRequest(AuthValidation.changePasswordValidationSchema),
-  AuthControllers.changePassword,
+  validSchema(changePasswordValidationSchema),
+  AuthControllers.changePassword
 );
 
 router.post(
-  '/refresh-token',
-  validateRequest(AuthValidation.refreshTokenValidationSchema),
-  AuthControllers.refreshToken,
+  "/refresh-token",
+  validSchema(refreshTokenValidationSchema),
+  AuthControllers.refreshToken
 );
 
 export const AuthRoutes = router;
