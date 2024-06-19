@@ -22,7 +22,11 @@ export const createStudent = catchAsyncError(
       });
     }
 
-    const result = await createStudentService(body.password || "", req.body);
+    const result = await createStudentService(
+      req.file,
+      body.password || "",
+      req.body
+    );
 
     return sendResponse(res, {
       statusCode: 200,

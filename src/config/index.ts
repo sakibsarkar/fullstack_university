@@ -13,6 +13,9 @@ const Config = {
   jwt_refresh_expires_in: "120d",
   mail: process.env.MAIL,
   mailPass: process.env.MAILPASS,
+  cloudinaryApiKey: process.env.CLOUD_API_KEY,
+  cloudName: process.env.CLOUD_NAME,
+  cloudSecret: process.env.CLOUD_SECRET,
 };
 
 export default Config;

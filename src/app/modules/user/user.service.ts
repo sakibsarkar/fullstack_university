@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import Config from "../../../config";
+import { sendImageToCloudinary } from "../../../utils/uploadImg";
 import { AcademicDepartment } from "../academicDepartment/academicDepartment.model";
 import { IAcademicSemester } from "../academicSemester/academicSemester.interface";
 import { academicService } from "../academicSemester/academicSemester.service";
@@ -19,6 +20,7 @@ import {
 } from "./user.utils";
 
 const createStudentService = async (
+  file: any,
   password: string,
   studentData: Partial<IStudent>
 ) => {
@@ -43,9 +45,11 @@ const createStudentService = async (
 
   // create transaction session
   const session = await mongoose.startSession();
-
   try {
     session.startTransaction();
+    const imageName = `${userData.id}${studentData?.name?.firstName}`;
+    const path = file?.path;
+    const uploadRes: any = await sendImageToCloudinary(imageName, path);
     // create a user
     const newUser = await User.create([userData], { session });
 
@@ -58,6 +62,7 @@ const createStudentService = async (
     // set id , _id as user
     studentData.id = newUser[0].id;
     studentData.user = newUser[0]._id; //reference _id
+    studentData.profileImg = uploadRes.secure_url as string;
 
     const newStudent = await Student.create([studentData], { session });
     if (!newStudent.length) {
