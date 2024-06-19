@@ -16,5 +16,7 @@ const Config = {
     jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
     jwt_access_expires_in: "1d",
     jwt_refresh_expires_in: "120d",
+    mail: process.env.MAIL,
+    mailPass: process.env.MAILPASS,
 };
 exports.default = Config;

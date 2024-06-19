@@ -3,8 +3,12 @@ import { catchAsyncError } from "../../../utils/catchAsyncError";
 import sendResponse from "../../../utils/sendResponse";
 import userService from "./user.service";
 
-const { createStudentService, createAdminService, createFacaltyService } =
-  userService;
+const {
+  createStudentService,
+  createAdminService,
+  createFacaltyService,
+  changeStatusService,
+} = userService;
 export const createStudent = catchAsyncError(
   async (req: Request, res: Response) => {
     const body = req.body;
@@ -29,7 +33,7 @@ export const createStudent = catchAsyncError(
   }
 );
 
-export const createAdmin = catchAsyncError(async (req, res, next) => {
+export const createAdmin = catchAsyncError(async (req, res) => {
   const { password, ...adminData } = req.body;
 
   const result = await createAdminService(password, adminData);
@@ -42,7 +46,7 @@ export const createAdmin = catchAsyncError(async (req, res, next) => {
   });
 });
 
-export const createFaculty = catchAsyncError(async (req, res, next) => {
+export const createFaculty = catchAsyncError(async (req, res) => {
   const { body } = req;
 
   const result = await createFacaltyService(body.password, body);
@@ -51,6 +55,19 @@ export const createFaculty = catchAsyncError(async (req, res, next) => {
     statusCode: 200,
     success: true,
     message: "Faculty is created succesfully",
+    data: result,
+  });
+});
+
+export const changeStatus = catchAsyncError(async (req, res) => {
+  const id = req.params.id;
+
+  const result = await changeStatusService(id, req.body);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Status is updated succesfully",
     data: result,
   });
 });

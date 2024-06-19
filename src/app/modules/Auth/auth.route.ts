@@ -5,6 +5,7 @@ import { USER_ROLE } from "../user/user.constants";
 import { AuthControllers } from "./auth.controller";
 import {
   changePasswordValidationSchema,
+  forgetPasswordValidationSchema,
   loginValidationSchema,
   refreshTokenValidationSchema,
 } from "./auth.validation";
@@ -28,6 +29,18 @@ router.post(
   "/refresh-token",
   validSchema(refreshTokenValidationSchema),
   AuthControllers.refreshToken
+);
+
+router.post(
+  "/change-password",
+  validSchema(refreshTokenValidationSchema),
+  AuthControllers.forgetPassword
+);
+
+router.post(
+  "/reset-password",
+  validSchema(forgetPasswordValidationSchema),
+  AuthControllers.resetPassword
 );
 
 export const AuthRoutes = router;

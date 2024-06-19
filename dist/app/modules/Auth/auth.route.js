@@ -14,4 +14,6 @@ const router = express_1.default.Router();
 router.post("/login", (0, validator_1.validSchema)(auth_validation_1.loginValidationSchema), auth_controller_1.AuthControllers.loginUser);
 router.post("/change-password", (0, auth_1.default)(user_constants_1.USER_ROLE.admin, user_constants_1.USER_ROLE.faculty, user_constants_1.USER_ROLE.student), (0, validator_1.validSchema)(auth_validation_1.changePasswordValidationSchema), auth_controller_1.AuthControllers.changePassword);
 router.post("/refresh-token", (0, validator_1.validSchema)(auth_validation_1.refreshTokenValidationSchema), auth_controller_1.AuthControllers.refreshToken);
+router.post("/change-password", (0, validator_1.validSchema)(auth_validation_1.refreshTokenValidationSchema), auth_controller_1.AuthControllers.forgetPassword);
+router.post("/reset-password", (0, validator_1.validSchema)(auth_validation_1.forgetPasswordValidationSchema), auth_controller_1.AuthControllers.resetPassword);
 exports.AuthRoutes = router;

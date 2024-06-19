@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import Config from "../../../config";
 import { AcademicDepartment } from "../academicDepartment/academicDepartment.model";
@@ -66,7 +67,7 @@ const createStudentService = async (
     await session.commitTransaction();
     await session.endSession();
     return newStudent;
-  } catch (error) {
+  } catch {
     await session.abortTransaction();
     await session.endSession();
   }
@@ -177,10 +178,18 @@ const createFacaltyService = async (password: string, payload: IFaculty) => {
   }
 };
 
+const changeStatusService = async (id: string, payload: { status: string }) => {
+  const result = await User.findByIdAndUpdate(id, payload, {
+    new: true,
+  });
+  return result;
+};
+
 const userService = {
   createStudentService,
   createAdminService,
   createFacaltyService,
+  changeStatusService,
 };
 
 export default userService;

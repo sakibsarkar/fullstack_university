@@ -12,6 +12,7 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
+    email: { type: String, required: true },
     needsPasswordChange: {
       type: Boolean,
       default: true,
@@ -41,10 +42,10 @@ const userSchema = new Schema<IUser>(
 );
 
 userSchema.pre("save", async function (next) {
-  const user = this; // doc
+
   // hashing password and save into DB
-  user.password = await bcrypt.hash(
-    user.password,
+  this.password = await bcrypt.hash(
+    this.password,
     Number(Config.bcrypt_salt_rounds)
   );
   next();

@@ -24,10 +24,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthControllers = void 0;
-const catchAsyncError_1 = require("../../../utils/catchAsyncError");
-const auth_service_1 = require("./auth.service");
 const config_1 = __importDefault(require("../../../config"));
+const catchAsyncError_1 = require("../../../utils/catchAsyncError");
 const sendResponse_1 = __importDefault(require("../../../utils/sendResponse"));
+const auth_service_1 = require("./auth.service");
 const loginUser = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield auth_service_1.AuthServices.loginUser(req.body);
     const { refreshToken, accessToken, needsPasswordChange } = result;
@@ -65,8 +65,30 @@ const refreshToken = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awai
         data: result,
     });
 }));
+const forgetPassword = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.body.id;
+    const result = yield auth_service_1.AuthServices.forgetPasswordService(userId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Reset link is generated succesfully!",
+        data: result,
+    });
+}));
+const resetPassword = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = req.headers.authorization;
+    const result = yield auth_service_1.AuthServices.resetPassword(req.body, token);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Password reset succesful!",
+        data: result,
+    });
+}));
 exports.AuthControllers = {
     loginUser,
     changePassword,
     refreshToken,
+    forgetPassword,
+    resetPassword,
 };

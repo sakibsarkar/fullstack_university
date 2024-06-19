@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("../../../config"));
 const academicDepartment_model_1 = require("../academicDepartment/academicDepartment.model");
@@ -54,7 +55,7 @@ const createStudentService = (password, studentData) => __awaiter(void 0, void 0
         yield session.endSession();
         return newStudent;
     }
-    catch (error) {
+    catch (_c) {
         yield session.abortTransaction();
         yield session.endSession();
     }
@@ -138,9 +139,16 @@ const createFacaltyService = (password, payload) => __awaiter(void 0, void 0, vo
         throw new Error(err);
     }
 });
+const changeStatusService = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findByIdAndUpdate(id, payload, {
+        new: true,
+    });
+    return result;
+});
 const userService = {
     createStudentService,
     createAdminService,
     createFacaltyService,
+    changeStatusService,
 };
 exports.default = userService;

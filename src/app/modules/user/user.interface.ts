@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
 import { USER_ROLE } from "./user.constants";
-
 export interface IUser {
   id: string;
   password: string;
@@ -9,6 +9,7 @@ export interface IUser {
   status: "in-progress" | "blocked";
   isDeleted: boolean;
   passwordChangedAt?: Date;
+  email: string;
 }
 
 export interface UserModel extends Model<IUser> {

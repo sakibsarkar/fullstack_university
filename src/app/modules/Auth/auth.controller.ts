@@ -1,8 +1,7 @@
-
-import { catchAsyncError } from "../../../utils/catchAsyncError";
-import { AuthServices } from "./auth.service";
 import Config from "../../../config";
+import { catchAsyncError } from "../../../utils/catchAsyncError";
 import sendResponse from "../../../utils/sendResponse";
+import { AuthServices } from "./auth.service";
 
 const loginUser = catchAsyncError(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
@@ -48,8 +47,33 @@ const refreshToken = catchAsyncError(async (req, res) => {
   });
 });
 
+const forgetPassword = catchAsyncError(async (req, res) => {
+  const userId = req.body.id;
+  const result = await AuthServices.forgetPasswordService(userId);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Reset link is generated succesfully!",
+    data: result,
+  });
+});
+
+const resetPassword = catchAsyncError(async (req, res) => {
+  const token = req.headers.authorization;
+
+  const result = await AuthServices.resetPassword(req.body, token as string);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Password reset succesful!",
+    data: result,
+  });
+});
+
 export const AuthControllers = {
   loginUser,
   changePassword,
   refreshToken,
+  forgetPassword,
+  resetPassword,
 };
