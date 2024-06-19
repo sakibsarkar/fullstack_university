@@ -40,7 +40,7 @@ export const createStudent = catchAsyncError(
 export const createAdmin = catchAsyncError(async (req, res) => {
   const { password, ...adminData } = req.body;
 
-  const result = await createAdminService(password, adminData);
+  const result = await createAdminService(req.file,password, adminData);
 
   sendResponse(res, {
     statusCode: 200,

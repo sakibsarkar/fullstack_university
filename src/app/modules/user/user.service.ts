@@ -78,7 +78,11 @@ const createStudentService = async (
   }
 };
 
-const createAdminService = async (password: string, payload: IAdmin) => {
+const createAdminService = async (
+  file: any,
+  password: string,
+  payload: IAdmin
+) => {
   // create a user object
   const userData: Partial<IUser> = {};
 
@@ -92,6 +96,9 @@ const createAdminService = async (password: string, payload: IAdmin) => {
 
   try {
     session.startTransaction();
+    const imageName = `${userData.id}${payload?.name?.firstName}`;
+    const path = file?.path;
+    const uploadRes: any = await sendImageToCloudinary(imageName, path);
     //set  generated id
     userData.id = await generateAdminId();
 
@@ -105,7 +112,8 @@ const createAdminService = async (password: string, payload: IAdmin) => {
     }
     // set id , _id as user
     payload.id = newUser[0].id;
-    payload.user = newUser[0]._id; //reference _id
+    payload.user = newUser[0]._id;
+    payload.profileImg = uploadRes.secure_url; //reference _id
 
     // create a admin (transaction-2)
     const newAdmin = await Admin.create([payload], { session });
@@ -127,7 +135,11 @@ const createAdminService = async (password: string, payload: IAdmin) => {
   }
 };
 
-const createFacaltyService = async (password: string, payload: IFaculty) => {
+const createFacaltyService = async (
+  file: any,
+  password: string,
+  payload: IFaculty
+) => {
   // create a user object
   const userData: Partial<IUser> = {};
 
@@ -150,6 +162,9 @@ const createFacaltyService = async (password: string, payload: IFaculty) => {
 
   try {
     session.startTransaction();
+    const imageName = `${userData.id}${payload?.name?.firstName}`;
+    const path = file?.path;
+    const uploadRes: any = await sendImageToCloudinary(imageName, path);
     //set  generated id
     userData.id = await generateFacultyId();
 
@@ -163,6 +178,7 @@ const createFacaltyService = async (password: string, payload: IFaculty) => {
     // set id , _id as user
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //reference _id
+    payload.profileImg = uploadRes.secure_url; //reference _id
 
     // create a faculty (transaction-2)
 

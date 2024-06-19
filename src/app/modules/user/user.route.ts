@@ -19,12 +19,16 @@ router.post(
 
 router.post(
   "/create/admin",
+  upload.single("file"),
+  jsonParser,
   validSchema(createAdminValidationSchema),
   createAdmin
 );
 
 router.post(
   "/create/faclty",
+  upload.single("file"),
+  jsonParser,
   validSchema(createFacultyValidationSchema),
   createFaculty
 );
