@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteOfferedCourseFromDB = exports.updateOfferedCourse = exports.getSingleOfferedCourses = exports.getAllOfferedCourses = exports.createOfferedCourse = void 0;
+exports.OfferedCourseControllers = void 0;
 const OfferedCourse_service_1 = require("./OfferedCourse.service");
 const catchAsyncError_1 = require("../../../utils/catchAsyncError");
 const sendResponse_1 = __importDefault(require("../../../utils/sendResponse"));
-exports.createOfferedCourse = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createOfferedCourse = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield OfferedCourse_service_1.OfferedCourseServices.createOfferedCourseIntoDB(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
@@ -25,26 +25,26 @@ exports.createOfferedCourse = (0, catchAsyncError_1.catchAsyncError)((req, res) 
         data: result,
     });
 }));
-exports.getAllOfferedCourses = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //   const result =
-    //   sendResponse(res, {
-    //     statusCode: 200,
-    //     success: true,
-    //     message: 'OfferedCourses retrieved successfully !',
-    //     data: result,
-    //   });
+const getAllOfferedCourses = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield OfferedCourse_service_1.OfferedCourseServices.getAllOfferedCoursesFromDB(req.query);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'OfferedCourses retrieved successfully !',
+        data: result,
+    });
 }));
-exports.getSingleOfferedCourses = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getSingleOfferedCourses = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    //   const result =
-    //   sendResponse(res, {
-    //     statusCode: 200,
-    //     success: true,
-    //     message: 'OfferedCourse fetched successfully',
-    //     data: result,
-    //   });
+    const result = yield OfferedCourse_service_1.OfferedCourseServices.getSingleOfferedCourseFromDB(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'OfferedCourse fetched successfully',
+        data: result,
+    });
 }));
-exports.updateOfferedCourse = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateOfferedCourse = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield OfferedCourse_service_1.OfferedCourseServices.updateOfferedCourseIntoDB(id, req.body);
     (0, sendResponse_1.default)(res, {
@@ -54,7 +54,7 @@ exports.updateOfferedCourse = (0, catchAsyncError_1.catchAsyncError)((req, res) 
         data: result,
     });
 }));
-exports.deleteOfferedCourseFromDB = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteOfferedCourseFromDB = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield OfferedCourse_service_1.OfferedCourseServices.deleteOfferedCourseFromDB(id);
     (0, sendResponse_1.default)(res, {
@@ -64,3 +64,10 @@ exports.deleteOfferedCourseFromDB = (0, catchAsyncError_1.catchAsyncError)((req,
         data: result,
     });
 }));
+exports.OfferedCourseControllers = {
+    createOfferedCourse,
+    getAllOfferedCourses,
+    getSingleOfferedCourses,
+    updateOfferedCourse,
+    deleteOfferedCourseFromDB,
+};

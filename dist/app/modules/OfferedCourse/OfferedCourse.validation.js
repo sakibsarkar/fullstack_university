@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateOfferedCourseValidationSchema = exports.createOfferedCourseValidationSchema = void 0;
+exports.OfferedCourseValidations = void 0;
 const zod_1 = require("zod");
 const OfferedCourse_constant_1 = require("./OfferedCourse.constant");
 const timeStringSchema = zod_1.z.string().refine((time) => {
@@ -9,7 +9,7 @@ const timeStringSchema = zod_1.z.string().refine((time) => {
 }, {
     message: 'Invalid time format , expected "HH:MM" in 24 hours format',
 });
-exports.createOfferedCourseValidationSchema = zod_1.z.object({
+const createOfferedCourseValidationSchema = zod_1.z.object({
     body: zod_1.z
         .object({
         semesterRegistration: zod_1.z.string(),
@@ -30,10 +30,10 @@ exports.createOfferedCourseValidationSchema = zod_1.z.object({
         const end = new Date(`1970-01-01T${body.endTime}:00`);
         return end > start;
     }, {
-        message: "Start time should be before End time !  ",
+        message: 'Start time should be before End time !  ',
     }),
 });
-exports.updateOfferedCourseValidationSchema = zod_1.z.object({
+const updateOfferedCourseValidationSchema = zod_1.z.object({
     body: zod_1.z
         .object({
         faculty: zod_1.z.string(),
@@ -49,6 +49,10 @@ exports.updateOfferedCourseValidationSchema = zod_1.z.object({
         const end = new Date(`1970-01-01T${body.endTime}:00`);
         return end > start;
     }, {
-        message: "Start time should be before End time !  ",
+        message: 'Start time should be before End time !  ',
     }),
 });
+exports.OfferedCourseValidations = {
+    createOfferedCourseValidationSchema,
+    updateOfferedCourseValidationSchema,
+};

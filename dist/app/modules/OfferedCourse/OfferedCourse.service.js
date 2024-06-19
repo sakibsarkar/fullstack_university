@@ -17,11 +17,11 @@ const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const academicDepartment_model_1 = require("../academicDepartment/academicDepartment.model");
 const academicFaculty_model_1 = require("../academicFaculty/academicFaculty.model");
-const course_model_1 = require("../course/course.model");
-const faculty_model_1 = require("../faculty/faculty.model");
 const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
 const OfferedCourse_model_1 = require("./OfferedCourse.model");
 const OfferedCourse_utils_1 = require("./OfferedCourse.utils");
+const faculty_model_1 = require("../faculty/faculty.model");
+const course_model_1 = require("../course/course.model");
 const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { semesterRegistration, academicFaculty, academicDepartment, course, section, faculty, days, startTime, endTime, } = payload;
     /**
@@ -39,24 +39,24 @@ const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0,
     //check if the semester registration id is exists!
     const isSemesterRegistrationExits = yield semesterRegistration_model_1.SemesterRegistration.findById(semesterRegistration);
     if (!isSemesterRegistrationExits) {
-        throw new AppError_1.default(400, "Semester registration not found !");
+        throw new AppError_1.default(404, 'Semester registration not found !');
     }
     const academicSemester = isSemesterRegistrationExits.academicSemester;
     const isAcademicFacultyExits = yield academicFaculty_model_1.AcademicFaculty.findById(academicFaculty);
     if (!isAcademicFacultyExits) {
-        throw new AppError_1.default(400, "Academic Faculty not found !");
+        throw new AppError_1.default(404, 'Academic Faculty not found !');
     }
     const isAcademicDepartmentExits = yield academicDepartment_model_1.AcademicDepartment.findById(academicDepartment);
     if (!isAcademicDepartmentExits) {
-        throw new AppError_1.default(400, "Academic Department not found !");
+        throw new AppError_1.default(404, 'Academic Department not found !');
     }
     const isCourseExits = yield course_model_1.Course.findById(course);
     if (!isCourseExits) {
-        throw new AppError_1.default(400, "Course not found !");
+        throw new AppError_1.default(404, 'Course not found !');
     }
     const isFacultyExits = yield faculty_model_1.Faculty.findById(faculty);
     if (!isFacultyExits) {
-        throw new AppError_1.default(400, "Faculty not found !");
+        throw new AppError_1.default(404, 'Faculty not found !');
     }
     // check if the department is belong to the  faculty
     const isDepartmentBelongToFaculty = yield academicDepartment_model_1.AcademicDepartment.findOne({
@@ -80,14 +80,14 @@ const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0,
         semesterRegistration,
         faculty,
         days: { $in: days },
-    }).select("days startTime endTime");
+    }).select('days startTime endTime');
     const newSchedule = {
         days,
         startTime,
         endTime,
     };
     if ((0, OfferedCourse_utils_1.hasTimeConflict)(assignedSchedules, newSchedule)) {
-        throw new AppError_1.default(409, `This faculty is not available at that time ! Choose other time or day`);
+        throw new AppError_1.default(400, `This faculty is not available at that time ! Choose other time or day`);
     }
     const result = yield OfferedCourse_model_1.OfferedCourse.create(Object.assign(Object.assign({}, payload), { academicSemester }));
     return result;
@@ -104,7 +104,7 @@ const getAllOfferedCoursesFromDB = (query) => __awaiter(void 0, void 0, void 0, 
 const getSingleOfferedCourseFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const offeredCourse = yield OfferedCourse_model_1.OfferedCourse.findById(id);
     if (!offeredCourse) {
-        throw new AppError_1.default(404, "Offered Course not found");
+        throw new AppError_1.default(404, 'Offered Course not found');
     }
     return offeredCourse;
 });
@@ -119,17 +119,17 @@ const updateOfferedCourseIntoDB = (id, payload) => __awaiter(void 0, void 0, voi
     const { faculty, days, startTime, endTime } = payload;
     const isOfferedCourseExists = yield OfferedCourse_model_1.OfferedCourse.findById(id);
     if (!isOfferedCourseExists) {
-        throw new AppError_1.default(400, "Offered course not found !");
+        throw new AppError_1.default(404, 'Offered course not found !');
     }
     const isFacultyExists = yield faculty_model_1.Faculty.findById(faculty);
     if (!isFacultyExists) {
-        throw new AppError_1.default(400, "Faculty not found !");
+        throw new AppError_1.default(404, 'Faculty not found !');
     }
     const semesterRegistration = isOfferedCourseExists.semesterRegistration;
     // get the schedules of the faculties
     // Checking the status of the semester registration
     const semesterRegistrationStatus = yield semesterRegistration_model_1.SemesterRegistration.findById(semesterRegistration);
-    if ((semesterRegistrationStatus === null || semesterRegistrationStatus === void 0 ? void 0 : semesterRegistrationStatus.status) !== "UPCOMING") {
+    if ((semesterRegistrationStatus === null || semesterRegistrationStatus === void 0 ? void 0 : semesterRegistrationStatus.status) !== 'UPCOMING') {
         throw new AppError_1.default(400, `You can not update this offered course as it is ${semesterRegistrationStatus === null || semesterRegistrationStatus === void 0 ? void 0 : semesterRegistrationStatus.status}`);
     }
     // check if the faculty is available at that time.
@@ -137,14 +137,14 @@ const updateOfferedCourseIntoDB = (id, payload) => __awaiter(void 0, void 0, voi
         semesterRegistration,
         faculty,
         days: { $in: days },
-    }).select("days startTime endTime");
+    }).select('days startTime endTime');
     const newSchedule = {
         days,
         startTime,
         endTime,
     };
     if ((0, OfferedCourse_utils_1.hasTimeConflict)(assignedSchedules, newSchedule)) {
-        throw new AppError_1.default(409, `This faculty is not available at that time ! Choose other time or day`);
+        throw new AppError_1.default(400, `This faculty is not available at that time ! Choose other time or day`);
     }
     const result = yield OfferedCourse_model_1.OfferedCourse.findByIdAndUpdate(id, payload, {
         new: true,
@@ -159,11 +159,11 @@ const deleteOfferedCourseFromDB = (id) => __awaiter(void 0, void 0, void 0, func
      */
     const isOfferedCourseExists = yield OfferedCourse_model_1.OfferedCourse.findById(id);
     if (!isOfferedCourseExists) {
-        throw new AppError_1.default(400, "Offered Course not found");
+        throw new AppError_1.default(404, 'Offered Course not found');
     }
     const semesterRegistation = isOfferedCourseExists.semesterRegistration;
-    const semesterRegistrationStatus = yield semesterRegistration_model_1.SemesterRegistration.findById(semesterRegistation).select("status");
-    if ((semesterRegistrationStatus === null || semesterRegistrationStatus === void 0 ? void 0 : semesterRegistrationStatus.status) !== "UPCOMING") {
+    const semesterRegistrationStatus = yield semesterRegistration_model_1.SemesterRegistration.findById(semesterRegistation).select('status');
+    if ((semesterRegistrationStatus === null || semesterRegistrationStatus === void 0 ? void 0 : semesterRegistrationStatus.status) !== 'UPCOMING') {
         throw new AppError_1.default(400, `Offered course can not update ! because the semester ${semesterRegistrationStatus}`);
     }
     const result = yield OfferedCourse_model_1.OfferedCourse.findByIdAndDelete(id);

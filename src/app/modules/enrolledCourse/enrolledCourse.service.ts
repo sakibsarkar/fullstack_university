@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import httpStatus from 'http-status';
-import mongoose from 'mongoose';
-import AppError from '../../errors/AppError';
-import { Course } from '../Course/course.model';
-import { Faculty } from '../Faculty/faculty.model';
-import { OfferedCourse } from '../OfferedCourse/OfferedCourse.model';
-import { SemesterRegistration } from '../semesterRegistration/semesterRegistration.model';
-import { Student } from '../student/student.model';
-import { TEnrolledCourse } from './enrolledCourse.interface';
-import EnrolledCourse from './enrolledCourse.model';
-import { calculateGradeAndPoints } from './enrolledCourse.utils';
+
+import mongoose from "mongoose";
+import AppError from "../../errors/AppError";
+
+import { OfferedCourse } from "../OfferedCourse/OfferedCourse.model";
+import { Course } from "../course/course.model";
+import { Faculty } from "../faculty/faculty.model";
+import { SemesterRegistration } from "../semesterRegistration/semesterRegistration.model";
+import { Student } from "../student/student.model";
+import { TEnrolledCourse } from "./enrolledCourse.interface";
+import EnrolledCourse from "./enrolledCourse.model";
+import { calculateGradeAndPoints } from "./enrolledCourse.utils";
 
 const createEnrolledCourseIntoDB = async (
   userId: string,
-  payload: TEnrolledCourse,
+  payload: TEnrolledCourse
 ) => {
   /**
    * Step1: Check if the offered cousres is exists
@@ -27,17 +28,17 @@ const createEnrolledCourseIntoDB = async (
   const isOfferedCourseExists = await OfferedCourse.findById(offeredCourse);
 
   if (!isOfferedCourseExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Offered course not found !');
+    throw new AppError(404, "Offered course not found !");
   }
 
   if (isOfferedCourseExists.maxCapacity <= 0) {
-    throw new AppError(httpStatus.BAD_GATEWAY, 'Room is full !');
+    throw new AppError(400, "Room is full !");
   }
 
   const student = await Student.findOne({ id: userId }, { _id: 1 });
 
   if (!student) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Student not found !');
+    throw new AppError(404, "Student not found !");
   }
   const isStudentAlreadyEnrolled = await EnrolledCourse.findOne({
     semesterRegistration: isOfferedCourseExists?.semesterRegistration,
@@ -46,7 +47,7 @@ const createEnrolledCourseIntoDB = async (
   });
 
   if (isStudentAlreadyEnrolled) {
-    throw new AppError(httpStatus.CONFLICT, 'Student is already enrolled !');
+    throw new AppError(400, "Student is already enrolled !");
   }
 
   // check total credits exceeds maxCredit
@@ -54,8 +55,8 @@ const createEnrolledCourseIntoDB = async (
   const currentCredit = course?.credits;
 
   const semesterRegistration = await SemesterRegistration.findById(
-    isOfferedCourseExists.semesterRegistration,
-  ).select('maxCredit');
+    isOfferedCourseExists.semesterRegistration
+  ).select("maxCredit");
 
   const maxCredit = semesterRegistration?.maxCredit;
 
@@ -68,19 +69,19 @@ const createEnrolledCourseIntoDB = async (
     },
     {
       $lookup: {
-        from: 'courses',
-        localField: 'course',
-        foreignField: '_id',
-        as: 'enrolledCourseData',
+        from: "courses",
+        localField: "course",
+        foreignField: "_id",
+        as: "enrolledCourseData",
       },
     },
     {
-      $unwind: '$enrolledCourseData',
+      $unwind: "$enrolledCourseData",
     },
     {
       $group: {
         _id: null,
-        totalEnrolledCredits: { $sum: '$enrolledCourseData.credits' },
+        totalEnrolledCredits: { $sum: "$enrolledCourseData.credits" },
       },
     },
     {
@@ -96,10 +97,7 @@ const createEnrolledCourseIntoDB = async (
     enrolledCourses.length > 0 ? enrolledCourses[0].totalEnrolledCredits : 0;
 
   if (totalCredits && maxCredit && totalCredits + currentCredit > maxCredit) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'You have exceeded maximum number of credits !',
-    );
+    throw new AppError(400, "You have exceeded maximum number of credits !");
   }
 
   const session = await mongoose.startSession();
@@ -121,14 +119,11 @@ const createEnrolledCourseIntoDB = async (
           isEnrolled: true,
         },
       ],
-      { session },
+      { session }
     );
 
     if (!result) {
-      throw new AppError(
-        httpStatus.BAD_REQUEST,
-        'Failed to enroll in this cousre !',
-      );
+      throw new AppError(400, "Failed to enroll in this cousre !");
     }
 
     const maxCapacity = isOfferedCourseExists.maxCapacity;
@@ -148,35 +143,33 @@ const createEnrolledCourseIntoDB = async (
 };
 const updateEnrolledCourseMarksIntoDB = async (
   facultyId: string,
-  payload: Partial<TEnrolledCourse>,
+  payload: Partial<TEnrolledCourse>
 ) => {
   const { semesterRegistration, offeredCourse, student, courseMarks } = payload;
 
-  const isSemesterRegistrationExists =
-    await SemesterRegistration.findById(semesterRegistration);
+  const isSemesterRegistrationExists = await SemesterRegistration.findById(
+    semesterRegistration
+  );
 
   if (!isSemesterRegistrationExists) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      'Semester registration not found !',
-    );
+    throw new AppError(404, "Semester registration not found !");
   }
 
   const isOfferedCourseExists = await OfferedCourse.findById(offeredCourse);
 
   if (!isOfferedCourseExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Offered course not found !');
+    throw new AppError(404, "Offered course not found !");
   }
   const isStudentExists = await Student.findById(student);
 
   if (!isStudentExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Student not found !');
+    throw new AppError(404, "Student not found !");
   }
 
   const faculty = await Faculty.findOne({ id: facultyId }, { _id: 1 });
 
   if (!faculty) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Faculty not found !');
+    throw new AppError(404, "Faculty not found !");
   }
 
   const isCourseBelongToFaculty = await EnrolledCourse.findOne({
@@ -187,7 +180,7 @@ const updateEnrolledCourseMarksIntoDB = async (
   });
 
   if (!isCourseBelongToFaculty) {
-    throw new AppError(httpStatus.FORBIDDEN, 'You are forbidden! !');
+    throw new AppError(403, "You are forbidden! !");
   }
 
   const modifiedData: Record<string, unknown> = {
@@ -222,7 +215,7 @@ const updateEnrolledCourseMarksIntoDB = async (
     modifiedData,
     {
       new: true,
-    },
+    }
   );
 
   return result;

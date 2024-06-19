@@ -38,7 +38,7 @@ exports.createStudent = (0, catchAsyncError_1.catchAsyncError)((req, res) => __a
             data: null,
         });
     }
-    const result = yield createStudentService(body.password || "", req.body);
+    const result = yield createStudentService(req.file, body.password || "", req.body);
     return (0, sendResponse_1.default)(res, {
         statusCode: 200,
         success: true,
@@ -48,7 +48,7 @@ exports.createStudent = (0, catchAsyncError_1.catchAsyncError)((req, res) => __a
 }));
 exports.createAdmin = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _a = req.body, { password } = _a, adminData = __rest(_a, ["password"]);
-    const result = yield createAdminService(password, adminData);
+    const result = yield createAdminService(req.file, password, adminData);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
         success: true,
@@ -58,7 +58,7 @@ exports.createAdmin = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awa
 }));
 exports.createFaculty = (0, catchAsyncError_1.catchAsyncError)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    const result = yield createFacaltyService(body.password, body);
+    const result = yield createFacaltyService(req.file, body.password, body);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
         success: true,

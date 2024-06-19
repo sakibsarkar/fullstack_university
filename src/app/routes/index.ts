@@ -1,6 +1,5 @@
 import express from "express";
 import { AuthRoutes } from "../modules/Auth/auth.route";
-import offeredCourseRoutes from "../modules/OfferedCourse/OfferedCourse.route";
 import academicDepertmentRoutes from "../modules/academicDepartment/academicDepartment.route";
 import academicFacultyRoutes from "../modules/academicFaculty/academicFaculty.route";
 import academicSemesterRoutes from "../modules/academicSemester/academicSemester.route";
@@ -10,6 +9,7 @@ import facultyRoutes from "../modules/faculty/faculty.route";
 import semesterRegistrationRoutes from "../modules/semesterRegistration/semesterRegistration.route";
 import studentRoutes from "../modules/student/studen.route";
 import userRoutes from "../modules/user/user.route";
+import { offeredCourseRoutes } from "../modules/OfferedCourse/OfferedCourse.route";
 const router = express.Router();
 
 const moduleRoute = [
