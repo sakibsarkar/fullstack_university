@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { Days } from "./OfferedCourse.constant";
+import { z } from 'zod';
+import { Days } from './OfferedCourse.constant';
 
 const timeStringSchema = z.string().refine(
   (time) => {
@@ -8,10 +8,10 @@ const timeStringSchema = z.string().refine(
   },
   {
     message: 'Invalid time format , expected "HH:MM" in 24 hours format',
-  }
+  },
 );
 
-export const createOfferedCourseValidationSchema = z.object({
+const createOfferedCourseValidationSchema = z.object({
   body: z
     .object({
       semesterRegistration: z.string(),
@@ -36,12 +36,12 @@ export const createOfferedCourseValidationSchema = z.object({
         return end > start;
       },
       {
-        message: "Start time should be before End time !  ",
-      }
+        message: 'Start time should be before End time !  ',
+      },
     ),
 });
 
-export const updateOfferedCourseValidationSchema = z.object({
+const updateOfferedCourseValidationSchema = z.object({
   body: z
     .object({
       faculty: z.string(),
@@ -61,9 +61,12 @@ export const updateOfferedCourseValidationSchema = z.object({
         return end > start;
       },
       {
-        message: "Start time should be before End time !  ",
-      }
+        message: 'Start time should be before End time !  ',
+      },
     ),
 });
 
-
+export const OfferedCourseValidations = {
+  createOfferedCourseValidationSchema,
+  updateOfferedCourseValidationSchema,
+};

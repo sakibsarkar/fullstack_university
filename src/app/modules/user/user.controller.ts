@@ -53,7 +53,7 @@ export const createAdmin = catchAsyncError(async (req, res) => {
 export const createFaculty = catchAsyncError(async (req, res) => {
   const { body } = req;
 
-  const result = await createFacaltyService(body.password, body);
+  const result = await createFacaltyService(req.file,body.password, body);
 
   sendResponse(res, {
     statusCode: 200,
